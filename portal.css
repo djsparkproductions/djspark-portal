@@ -105,7 +105,14 @@ html.djsp .djsp-section {
   overflow: hidden;
   margin-top: 16px !important;
 }
-html.djsp .djsp-section .new_tablecell { background: transparent !important; padding: 8px 6px 16px !important; }
+html.djsp .djsp-section .new_tablecell {
+  background: transparent !important;
+  color: var(--text) !important;
+  font-family: inherit !important;
+  font-size: 15px !important;
+  padding: 8px 6px 16px !important;
+}
+html.djsp .djsp-section .new_tablecell * { font-family: inherit !important; }
 
 html.djsp .djsp-banner {
   background: #000 !important;
@@ -135,6 +142,7 @@ html.djsp .form-group {
   padding: 12px 6px 14px !important;
 }
 html.djsp .questiontitle {
+  background: transparent !important;
   color: var(--text) !important;
   font-size: 15px !important;
   font-weight: 600;

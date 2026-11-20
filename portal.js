@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  var VERSION = '0.1.0';
+  var VERSION = '0.1.1';
   if (window.__djspPortal) return; // load once
   window.__djspPortal = VERSION;
 
@@ -68,6 +68,7 @@
       };
     }).filter(function (s) {
       // Skip sections with nothing for the client (e.g. DJ-only notes).
+      if (/^DJ (team|only)/i.test(s.title)) { s.box.classList.add('djsp-empty-section'); return false; }
       var hasInput = s.groups.some(function (g) { return g.querySelector('input,select,textarea'); });
       var hasText = $('.new_tablecell', s.box) && $('.new_tablecell', s.box).textContent.trim().length > 0;
       if (!hasInput && !hasText) { s.box.classList.add('djsp-empty-section'); return false; }
@@ -152,23 +153,27 @@
       if (!rows.length) return;
       table.classList.add('djsp-grid');
       var headers = Array.prototype.map.call(rows[0].cells, function (c) { return c.textContent.trim(); });
+      // A column is "used" if any cell in it has an input or text (header row excluded).
+      var used = headers.map(function (h, c) {
+        return rows.slice(1).some(function (row) {
+          var cell = row.cells[c];
+          return cell && (cell.querySelector('input,textarea,select') || cell.textContent.trim());
+        });
+      });
       rows.forEach(function (row, r) {
         var rowTitle = '';
         Array.prototype.forEach.call(row.cells, function (cell, c) {
           var hasInput = cell.querySelector('input,textarea,select');
           var text = cell.textContent.trim();
+          if (!used[c]) { cell.classList.add('djsp-cell-empty'); return; }
           if (r === 0) { cell.parentNode.classList.add('djsp-grid-head'); return; }
-          if (!hasInput && !text) { cell.classList.add('djsp-cell-empty'); return; }
+          if (!hasInput && !text) return;
           if (!hasInput) { rowTitle = text; cell.classList.add('djsp-cell-rowtitle'); return; }
           cell.setAttribute('data-label', headers[c] || '');
           var input = cell.querySelector('input,textarea');
           if (input && !input.placeholder) input.placeholder = headers[c] || rowTitle;
         });
         if (r > 0) row.setAttribute('data-row', rowTitle);
-      });
-      // Hide header cells over empty row-title columns.
-      Array.prototype.forEach.call(rows[0].cells, function (cell) {
-        if (!cell.textContent.trim()) cell.classList.add('djsp-cell-empty');
       });
     });
 
