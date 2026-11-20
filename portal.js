@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  var VERSION = '0.2.0';
+  var VERSION = '0.2.1';
   if (window.__djspPortal) return; // load once
   window.__djspPortal = VERSION;
 
@@ -371,7 +371,12 @@
       var h = d.getHours(), m = d.getMinutes();
       return (h % 12 || 12) + ':' + (m < 10 ? '0' : '') + m + (h < 12 ? ' am' : ' pm');
     }
-    function onSaved() { dirty = false; setSave('Saved ' + stamp(), 'saved'); }
+    function onSaved() {
+      dirty = false;
+      setSave('Saved ' + stamp(), 'saved');
+      // Answers are on the server now, so skip DJEP's "leave page?" warning.
+      try { window.needToConfirm = false; } catch (e) {}
+    }
     // Watch DJEP's own saves (auto-save and the Save button use background requests).
     (function watchXHR() {
       var XO = XMLHttpRequest.prototype.open, XS = XMLHttpRequest.prototype.send;

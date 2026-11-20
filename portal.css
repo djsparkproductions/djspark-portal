@@ -21,7 +21,7 @@ html.djsp {
 
 html.djsp body {
   overflow-x: hidden;
-  background: var(--bg) !important;
+  background-color: var(--bg) !important;
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
   -webkit-text-size-adjust: 100%;
@@ -283,3 +283,14 @@ html.djsp .djsp-choice input { margin: 0 2px 0 8px !important; }
 html.djsp .djsp-choice:has(input:checked) { border-color: var(--accent); background: #2a1f3a; }
 html.djsp .form-group input[type="text"] { width: 100% !important; }
 html.djsp .form-group table.djsp-grid { border-collapse: separate; }
+/* Portal: restore banner and question cards over the table resets above */
+html.djsp table.djsp-ptable > tbody > tr > td.djsp-banner { background: #000 !important; color: #fff !important; }
+html.djsp table.djsp-ptable > tbody > tr.form-group {
+  background: var(--card) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 10px;
+  margin: 10px 8px !important;
+  padding: 12px 6px 14px !important;
+}
+html.djsp table.djsp-ptable > tbody > tr.djsp-comment { background: transparent !important; border: 0 !important; }
+html.djsp table.djsp-ptable > tbody > tr > td.djsp-banner + td { display: none; }
