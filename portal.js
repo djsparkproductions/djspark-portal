@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  var VERSION = '0.1.2';
+  var VERSION = '0.1.3';
   if (window.__djspPortal) return; // load once
   window.__djspPortal = VERSION;
 
