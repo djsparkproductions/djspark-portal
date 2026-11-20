@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  var VERSION = '0.1.3';
+  var VERSION = '0.2.0';
   if (window.__djspPortal) return; // load once
   window.__djspPortal = VERSION;
 
@@ -32,9 +32,18 @@
   }
 
   ready(function () {
+    // Two DJEP layouts: the newer div layout (form preview) and the older table
+    // layout used inside the logged-in client portal.
     var main = document.getElementById('form_maincontainer');
-    if (!main) return;
+    var portal = false;
+    if (!main) {
+      var t = $('form table[id^="planning_form_table_"]');
+      if (!t) return;
+      main = t.closest('form');
+      portal = true;
+    }
     try {
+      if (portal) normalizePortal(main);
       init(main);
     } catch (err) {
       // Fall back to DJEP's plain form.
@@ -42,6 +51,54 @@
       if (window.console) console.warn('[djsp] disabled:', err);
     }
   });
+
+  // Reshape the portal's table layout into the same classes the div layout uses,
+  // so one set of styles and logic covers both. Inputs never leave the form.
+  function normalizePortal(form) {
+    $$('table[id^="planning_form_table_"]', form).forEach(function (table) {
+      var wrap = el('div', 'djsp-ptable-wrap');
+      wrap.id = 'djsp_' + table.id;
+      table.parentNode.insertBefore(wrap, table);
+      wrap.appendChild(table);
+      wrap.setAttribute('data-djsp-section', '1');
+      table.classList.add('djsp-ptable');
+      var head = $('td.djep-form-sections', table);
+      if (head) head.classList.add('new_tableheader');
+      $$('tr[id^="question_row_id_"]', table).forEach(function (tr) {
+        tr.classList.add('form-group');
+        var cells = Array.prototype.filter.call(tr.children, function (c) { return c.tagName === 'TD'; });
+        if (!tr.querySelector('input,select,textarea')) { tr.classList.add('djsp-comment'); return; }
+        if (cells.length >= 2 && !cells[0].querySelector('input,select,textarea')) {
+          cells[0].classList.add('questiontitle');
+          return;
+        }
+        // Single cell: the title is the text before the first <br>.
+        var td = cells[0];
+        var p = el('p', 'questiontitle');
+        while (td.firstChild && td.firstChild.nodeName !== 'BR' && td.firstChild.nodeName !== 'TABLE' &&
+               !(td.firstChild.nodeType === 1 && td.firstChild.matches('input,select,textarea'))) {
+          p.appendChild(td.firstChild);
+        }
+        if (td.firstChild && td.firstChild.nodeName === 'BR') td.removeChild(td.firstChild);
+        while (td.firstChild && td.firstChild.nodeType === 3 && !td.firstChild.textContent.replace(/ /g, ' ').trim()) {
+          td.removeChild(td.firstChild);
+        }
+        if (p.textContent.trim()) td.insertBefore(p, td.firstChild);
+        // Radio/checkbox answers: wrap each control with its label text so they become tappable pills.
+        $$('input[type="radio"],input[type="checkbox"]', td).forEach(function (inp) {
+          if (inp.closest('label')) return;
+          var label = el('label', 'djsp-choice');
+          inp.parentNode.insertBefore(label, inp);
+          label.appendChild(inp);
+          var txt = label.nextSibling;
+          if (txt && txt.nodeType === 3) {
+            label.appendChild(document.createTextNode(' ' + txt.textContent.replace(/ /g, ' ').trim()));
+            txt.parentNode.removeChild(txt);
+          }
+        });
+      });
+    });
+  }
 
   function init(main) {
     // Phones: DJEP's form page has no viewport tag, so it renders zoomed out.
@@ -58,7 +115,9 @@
     var posKey = 'djsp-section-' + eventId;
 
     // ---- Sections -------------------------------------------------------
-    var sections = $$('[id^="planning_form_table_"]', main).map(function (box, i) {
+    var boxes = $$('[data-djsp-section]', main);
+    if (!boxes.length) boxes = $$('div[id^="planning_form_table_"]', main);
+    var sections = boxes.map(function (box, i) {
       var head = $('.new_tableheader', box);
       return {
         box: box,
@@ -70,8 +129,8 @@
       // Skip sections with nothing for the client (e.g. DJ-only notes).
       if (/^DJ (team|only)/i.test(s.title)) { s.box.classList.add('djsp-empty-section'); return false; }
       var hasInput = s.groups.some(function (g) { return g.querySelector('input,select,textarea'); });
-      var hasText = $('.new_tablecell', s.box) && $('.new_tablecell', s.box).textContent.trim().length > 0;
-      if (!hasInput && !hasText) { s.box.classList.add('djsp-empty-section'); return false; }
+      var bodyText = s.box.textContent.replace(s.title, '').trim();
+      if (!hasInput && !bodyText) { s.box.classList.add('djsp-empty-section'); return false; }
       return true;
     });
     if (sections.length < 2) return;
@@ -79,7 +138,9 @@
     document.documentElement.classList.add('djsp');
 
     var formHeader = $('.formname_header', main);
-    var formTitle = formHeader ? formHeader.textContent.trim() : 'Your Wedding Plan';
+    var titleBar = $('.djep-titlebar', main);
+    var formTitle = formHeader ? formHeader.textContent.trim()
+      : (titleBar && titleBar.lastChild && titleBar.lastChild.nodeType === 3 && titleBar.lastChild.textContent.trim()) || 'Your Wedding Plan';
     if (formHeader && formHeader.parentElement !== main) formHeader.parentElement.classList.add('djsp-empty-section');
 
     // ---- Top bar ----------------------------------------------------------
@@ -99,7 +160,7 @@
     bar.appendChild(barInner);
     bar.appendChild(progWrap);
     bar.appendChild(progText);
-    main.parentNode.insertBefore(bar, main);
+    sections[0].box.parentNode.insertBefore(bar, sections[0].box);
 
     // ---- Section menu -----------------------------------------------------
     var menu = el('div', 'djsp-menu');
@@ -149,7 +210,7 @@
     });
 
     // ---- Grids: label every cell so they stack into cards on phones ------
-    $$('table', main).forEach(function (table) {
+    $$('.form-group table', main).forEach(function (table) {
       var rows = Array.prototype.slice.call(table.rows);
       if (!rows.length) return;
       table.classList.add('djsp-grid');
@@ -228,6 +289,7 @@
       store(posKey, String(current));
       tally();
       if (noScroll) return;
+      saveNow();
       var top = bar.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo(0, Math.max(0, top - 4));
     }
@@ -327,6 +389,20 @@
       };
     })();
     if (form) form.addEventListener('submit', function () { setSave('Saving…', 'saving'); });
+
+    // Save whenever the couple moves between sections, using DJEP's own auto-save.
+    var autoArgs = (function () {
+      var src = $$('script').map(function (s) { return s.src ? '' : s.textContent; }).join('\n');
+      var m = src.match(/autosave\(\s*['"]([^'"]+)['"]\s*,\s*['"]([^'"]+)['"]/);
+      return m ? [m[1], m[2]] : null;
+    })();
+    function saveNow() {
+      if (!dirty || typeof window.autosave !== 'function' || !autoArgs) return;
+      try {
+        window.formisdirty = true;
+        window.autosave(autoArgs[0], autoArgs[1]);
+      } catch (e) { /* DJEP's timer will still save */ }
+    }
     window.addEventListener('beforeunload', function () { store(posKey, String(current)); });
 
     // ---- Start ---------------------------------------------------------------

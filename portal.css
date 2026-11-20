@@ -252,3 +252,34 @@ html.djsp .djsp-done { color: var(--ok); font-weight: 600; font-size: 14px; flex
   html.djsp .djsp-btn { width: 100%; }
   html.djsp .djsp-done { text-align: center; }
 }
+
+/* ---------- Client portal (older table layout) ---------- */
+html.djsp #djep-content,
+html.djsp .djep-planningformseditbox { background: var(--bg) !important; color: var(--text); }
+html.djsp .djep-titlebar { color: var(--muted) !important; background: transparent !important; border: 0 !important; }
+html.djsp .djep-titlebar label { color: var(--muted); }
+html.djsp input.djep-actionbutton {
+  background: var(--card) !important; color: var(--text) !important; border: 1px solid var(--line) !important;
+  border-radius: 9px !important; padding: 9px 16px !important; font-weight: 600; background-image: none !important;
+}
+html.djsp .djsp-ptable-wrap { max-width: 760px; margin-left: auto; margin-right: auto; }
+html.djsp table.djsp-ptable,
+html.djsp table.djsp-ptable > tbody,
+html.djsp table.djsp-ptable > tbody > tr,
+html.djsp table.djsp-ptable > tbody > tr > td {
+  display: block; width: auto !important; border: 0 !important; background: transparent !important;
+}
+html.djsp table.djsp-ptable { padding: 0 0 8px; }
+html.djsp table.djsp-ptable > tbody > tr.form-group > td { padding: 0 6px !important; color: var(--text) !important; }
+html.djsp table.djsp-ptable td.ed { color: var(--text) !important; font-size: 15px !important; }
+html.djsp tr.djsp-comment { background: transparent !important; border: 0 !important; }
+html.djsp tr.djsp-comment td { color: #d8d2e3 !important; }
+html.djsp .djsp-choice {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin: 4px 8px 4px 0; padding: 8px 14px 8px 4px;
+  background: var(--bg); border: 1px solid #3a3150; border-radius: 999px; cursor: pointer; font-size: 15px;
+}
+html.djsp .djsp-choice input { margin: 0 2px 0 8px !important; }
+html.djsp .djsp-choice:has(input:checked) { border-color: var(--accent); background: #2a1f3a; }
+html.djsp .form-group input[type="text"] { width: 100% !important; }
+html.djsp .form-group table.djsp-grid { border-collapse: separate; }
