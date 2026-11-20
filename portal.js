@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  var VERSION = '0.1.1';
+  var VERSION = '0.1.2';
   if (window.__djspPortal) return; // load once
   window.__djspPortal = VERSION;
 
@@ -80,6 +80,7 @@
 
     var formHeader = $('.formname_header', main);
     var formTitle = formHeader ? formHeader.textContent.trim() : 'Your Wedding Plan';
+    if (formHeader && formHeader.parentElement !== main) formHeader.parentElement.classList.add('djsp-empty-section');
 
     // ---- Top bar ----------------------------------------------------------
     var bar = el('div', 'djsp-bar');
