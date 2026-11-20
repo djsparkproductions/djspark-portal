@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  var VERSION = '0.2.1';
+  var VERSION = '0.2.2';
   if (window.__djspPortal) return; // load once
   window.__djspPortal = VERSION;
 
@@ -342,7 +342,7 @@
         var q = $('.questiontitle', g);
         if (!q || !SONGY.test(q.textContent)) return;
         $$('input[type="text"],textarea', g).forEach(function (f) {
-          if (f.closest('table')) return; // grids handled as plain text
+          if (f.closest('table.djsp-grid')) return; // grid cells stay plain text
           var single = f.tagName === 'INPUT';
           var box = el('div', 'djsp-links');
           f.parentNode.appendChild(box);
