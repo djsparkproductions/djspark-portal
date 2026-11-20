@@ -1,0 +1,243 @@
+/*
+ * DJ Spark Productions: wedding planning form theme for DJ Event Planner.
+ * Everything is scoped to html.djsp, which portal.js adds only after it starts
+ * successfully. If the script fails, none of these rules apply.
+ * Rule of thumb: colors, spacing and layout only. Never hide DJEP form controls.
+ */
+
+html.djsp {
+  --bg: #0e0c13;
+  --panel: #17141f;
+  --card: #211c2c;
+  --line: #2f2840;
+  --text: #ece8f3;
+  --muted: #a99cbd;
+  --accent: #c25bff;
+  --accent-dark: #8e3fd0;
+  --ok: #3ddc97;
+  --warn: #f2a33a;
+  --radius: 12px;
+}
+
+html.djsp body {
+  background: var(--bg) !important;
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  -webkit-text-size-adjust: 100%;
+}
+
+html.djsp #form_maincontainer {
+  max-width: 760px;
+  margin: 0 auto !important;
+  padding: 0 12px 40px;
+}
+
+/* Form name header from DJEP: the top bar replaces it. */
+html.djsp .formname_header { display: none !important; }
+
+/* ---------- Top bar ---------- */
+html.djsp .djsp-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 12px 16px 10px;
+  background: rgba(23, 20, 31, 0.96);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(6px);
+}
+html.djsp .djsp-bar-inner { display: flex; align-items: center; gap: 10px; }
+html.djsp .djsp-bar-title { font-weight: 800; font-size: 17px; flex: 1; letter-spacing: .2px; }
+html.djsp .djsp-save { font-size: 12px; color: var(--muted); white-space: nowrap; }
+html.djsp .djsp-save.dirty { color: var(--warn); }
+html.djsp .djsp-save.saving { color: var(--muted); }
+html.djsp .djsp-save.saved { color: var(--ok); }
+html.djsp .djsp-menu-btn {
+  background: var(--card); color: var(--text); border: 1px solid var(--line);
+  border-radius: 8px; padding: 7px 12px; font-size: 13px; font-weight: 600; cursor: pointer;
+}
+html.djsp .djsp-prog { height: 6px; background: #2a2436; border-radius: 4px; overflow: hidden; margin-top: 10px; }
+html.djsp .djsp-prog i {
+  display: block; height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--accent-dark), #d46bff);
+  transition: width .3s ease;
+}
+html.djsp .djsp-prog-text { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+/* ---------- Section menu ---------- */
+html.djsp .djsp-menu {
+  display: none; position: fixed; inset: 0; z-index: 100;
+  background: rgba(8, 6, 12, .6);
+}
+html.djsp .djsp-menu.open { display: block; }
+html.djsp .djsp-menu-list {
+  list-style: none; margin: 0; padding: 10px;
+  position: absolute; top: 0; right: 0; bottom: 0; width: min(340px, 88vw);
+  background: var(--panel); border-left: 1px solid var(--line); overflow-y: auto;
+  counter-reset: step;
+}
+html.djsp .djsp-menu-item {
+  counter-increment: step;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 12px; margin-bottom: 6px; border-radius: 9px; cursor: pointer;
+  background: var(--card); border-left: 3px solid #6a3a90; font-size: 14px; font-weight: 600;
+}
+html.djsp .djsp-menu-item::before { content: counter(step); color: var(--muted); font-size: 12px; min-width: 16px; }
+html.djsp .djsp-menu-name { flex: 1; }
+html.djsp .djsp-menu-item.current { background: var(--accent); color: #1a0d24; border-left-color: #fff; }
+html.djsp .djsp-menu-item.current::before { color: #1a0d24; }
+html.djsp .djsp-menu-count {
+  font-size: 11px; border: 1px solid #4b3f60; border-radius: 6px; padding: 2px 7px; color: #b8aecb;
+}
+html.djsp .djsp-menu-item.current .djsp-menu-count { border-color: rgba(26,13,36,.4); color: #1a0d24; }
+html.djsp .djsp-menu-item.complete .djsp-menu-count { border-color: var(--ok); color: var(--ok); }
+html.djsp .djsp-menu-item.complete.current .djsp-menu-count { color: #0e2a1e; background: var(--ok); }
+
+/* ---------- Sections ---------- */
+html.djsp .djsp-off,
+html.djsp .djsp-empty-section { display: none !important; }
+
+html.djsp .djsp-section {
+  background: var(--panel) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-top: 16px !important;
+}
+html.djsp .djsp-section .new_tablecell { background: transparent !important; padding: 8px 6px 16px !important; }
+
+html.djsp .djsp-banner {
+  background: #000 !important;
+  color: #fff !important;
+  text-align: center;
+  padding: 34px 16px 30px !important;
+  font-family: "Orbitron", "Segoe UI", Arial, sans-serif !important;
+  font-size: clamp(22px, 6vw, 34px) !important;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-shadow: 0 0 6px var(--accent), 0 0 18px var(--accent);
+  line-height: 1.15;
+}
+html.djsp .djsp-step {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-size: 11px; letter-spacing: 2px; color: var(--muted);
+  text-shadow: none; margin-bottom: 10px; font-weight: 600;
+}
+
+/* ---------- Questions ---------- */
+html.djsp .form-group {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 10px 8px !important;
+  padding: 12px 6px 14px !important;
+}
+html.djsp .questiontitle {
+  color: var(--text) !important;
+  font-size: 15px !important;
+  font-weight: 600;
+  margin-bottom: 8px !important;
+  float: none !important;
+  width: 100% !important;
+}
+html.djsp .form-group > .col-xs-12,
+html.djsp .form-group > [class*="col-sm-"] { float: none !important; width: 100% !important; }
+
+html.djsp .form-group input[type="text"],
+html.djsp .form-group textarea,
+html.djsp .form-group select {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  border: 1px solid #3a3150 !important;
+  border-radius: 8px !important;
+  padding: 10px 12px !important;
+  font-size: 16px !important; /* 16px stops iPhone from zooming in on focus */
+  line-height: 1.4;
+}
+html.djsp .form-group textarea { min-height: 96px; }
+html.djsp .form-group input:focus,
+html.djsp .form-group textarea:focus,
+html.djsp .form-group select:focus {
+  outline: none;
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(194, 91, 255, .25);
+}
+html.djsp .form-group select { -webkit-appearance: none; appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%) !important;
+  background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50% !important;
+  background-size: 5px 5px, 5px 5px !important; background-repeat: no-repeat !important;
+}
+html.djsp .form-group select option { color: #111; }
+html.djsp ::placeholder { color: #6f6880; }
+
+/* Radio and checkbox answers become tappable pills */
+html.djsp .form-group input[type="radio"],
+html.djsp .form-group input[type="checkbox"] {
+  accent-color: var(--accent);
+  width: 20px; height: 20px; vertical-align: middle; margin: 6px 6px 6px 10px;
+}
+
+/* Comment items (instructions) */
+html.djsp .new_tablecell p { color: #d8d2e3; font-size: 14.5px; line-height: 1.5; margin: 6px 12px; }
+html.djsp .new_tablecell a { color: #e5b8ff; }
+html.djsp .djsp-welcome { padding: 6px 10px; }
+html.djsp .djsp-welcome h2 { font-size: 22px; margin: 6px 0 8px; color: #fff; }
+
+/* ---------- Grids ---------- */
+html.djsp .table-responsive { border: 0 !important; overflow: visible; }
+html.djsp table.djsp-grid { width: 100%; border: 0 !important; background: transparent !important; }
+html.djsp table.djsp-grid td,
+html.djsp table.djsp-grid th { border: 0 !important; background: transparent !important; color: var(--muted); padding: 4px !important; font-size: 13px; }
+html.djsp table.djsp-grid .djsp-cell-empty { display: none; }
+html.djsp table.djsp-grid .djsp-cell-rowtitle { color: var(--text); font-weight: 600; white-space: nowrap; }
+
+@media (max-width: 640px) {
+  html.djsp table.djsp-grid,
+  html.djsp table.djsp-grid tbody,
+  html.djsp table.djsp-grid tr,
+  html.djsp table.djsp-grid td { display: block; width: 100% !important; }
+  html.djsp table.djsp-grid tr.djsp-grid-head { display: none; }
+  html.djsp table.djsp-grid tr {
+    background: var(--bg); border: 1px solid var(--line); border-radius: 9px;
+    padding: 8px 6px; margin-bottom: 8px;
+  }
+  html.djsp table.djsp-grid td[data-label]::before {
+    content: attr(data-label); display: block; font-size: 12px; color: var(--muted); margin: 2px 0 4px;
+  }
+  html.djsp table.djsp-grid td[data-label=""]::before { display: none; }
+  html.djsp table.djsp-grid .djsp-cell-empty { display: none !important; }
+}
+
+/* ---------- Song link chips ---------- */
+html.djsp .djsp-links { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 2px 0; }
+html.djsp .djsp-chip {
+  font-size: 12px; padding: 4px 9px; border-radius: 999px;
+  background: #2a1f3a; color: #e5b8ff; border: 1px solid #4b3f60;
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+html.djsp .djsp-chip-song { border-color: var(--ok); color: var(--ok); background: rgba(61, 220, 151, .08); }
+html.djsp .djsp-chip-other { color: var(--muted); }
+html.djsp .djsp-warn { flex-basis: 100%; font-size: 13px; color: var(--warn); }
+
+/* ---------- Prev / Next ---------- */
+html.djsp .djsp-nav {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  padding: 14px 14px 18px; flex-wrap: wrap;
+}
+html.djsp .djsp-btn {
+  background: var(--accent); color: #1a0d24; border: 0; border-radius: 10px;
+  padding: 12px 18px; font-size: 15px; font-weight: 700; cursor: pointer;
+  max-width: 100%;
+}
+html.djsp .djsp-btn-ghost { background: transparent; color: #cfc7dc; border: 1px solid #4b3f60; font-weight: 600; }
+html.djsp .djsp-done { color: var(--ok); font-weight: 600; font-size: 14px; flex: 1; text-align: right; }
+@media (max-width: 480px) {
+  html.djsp .djsp-nav { flex-direction: column-reverse; align-items: stretch; }
+  html.djsp .djsp-btn { width: 100%; }
+  html.djsp .djsp-done { text-align: center; }
+}

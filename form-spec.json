@@ -1,0 +1,90 @@
+[
+ {"section":"Welcome","items":[
+  {"c":"LOADER"}
+ ]},
+ {"section":"About You","items":[
+  {"c":"<p>Tell us about the two of you. This helps us personalize your announcements and music.</p>"},
+  {"n":"COUPLE","t":"textboxgrid","l":"Your contact info","cols":["Partner 1","Partner 2"],"rows":["Name","Pronouns","Cell phone","Email","Instagram / social"]},
+  {"n":"WEDSITE","t":"textbox","l":"Wedding website (paste the link)"},
+  {"n":"PALETTE","t":"textbox","l":"Wedding color palette"},
+  {"n":"INSPO","t":"textbox","l":"Pinterest or Canva inspiration board link (optional)"},
+  {"n":"SOCIALOK","t":"selectonehorizontal","l":"Can we post and tag you on social media from your wedding?","o":["Yes","No"]},
+  {"n":"STORY","t":"textarea","l":"How long have you known each other, and where did you meet?"},
+  {"n":"FUNFACTS","t":"textarea","l":"A couple of fun facts about each of you"},
+  {"n":"HONEYMOON","t":"textbox","l":"Any fun honeymoon plans we could mention?"},
+  {"n":"GRADYEARS","t":"textbox","l":"What year did each of you graduate high school? (helps us pick throwbacks)"},
+  {"n":"LIKED","t":"textarea","l":"Up to 5 things you LOVED at other weddings"},
+  {"n":"DISLIKED","t":"textarea","l":"Up to 5 things you DIDN'T like at other weddings"}
+ ]},
+ {"section":"Your Vendor Team","items":[
+  {"c":"<p>Share your creative partners so we can coordinate the day. Leave blank any you don't have.</p>"},
+  {"n":"VENDORS","t":"textboxgrid","l":"Vendor contacts","cols":["Name & company","Email or phone"],"rows":["Planner / coordinator","Venue contact","Officiant","Photographer","Videographer","Caterer","Florist","Cake / desserts","Other"]}
+ ]},
+ {"section":"Guests & Venue","items":[
+  {"n":"GUESTCOUNT","t":"textbox","l":"Expected attendance (a range is fine)"},
+  {"n":"CROWDFROM","t":"textbox","l":"Where is your crowd coming from?"},
+  {"n":"CROWDWHO","t":"textarea","l":"Who are most of your guests, and how are you connected to them?"},
+  {"n":"ATTIRE","t":"textbox","l":"Guest attire and wedding party attire"},
+  {"n":"AGEMIX","t":"textboxgrid","l":"Rough age mix of your guests","cols":["About how many?"],"rows":["Children","Teens","20s","30s","40s","50s+"]},
+  {"n":"STAIRS","t":"selectonehorizontal","l":"Are stairs or an elevator needed to reach any part of the event?","o":["Yes","No"],"hide":{"No":["STAIRSINFO"]}},
+  {"n":"STAIRSINFO","t":"textarea","l":"Tell us about the stairs or elevator"},
+  {"n":"FLOORPLAN","t":"textbox","l":"Floor plan or layout link (optional)"}
+ ]},
+ {"section":"Ceremony","items":[
+  {"n":"CERDJ","t":"selectonehorizontal","l":"Is DJ Spark providing sound and music for your ceremony?","o":["Yes","No"],"hide":{"No":["CERLOC","PRELUDE","PROCWP","PROCWPN","PROCBRIDE","RECESS","CERNOTES"]}},
+  {"n":"CERLOC","t":"textbox","l":"Ceremony location (room or area)"},
+  {"n":"PRELUDE","t":"textarea","l":"Prelude music while guests arrive (song or playlist links, one per line)"},
+  {"n":"PROCWP","t":"textbox","l":"Wedding party processional song (link, or Title – Artist)"},
+  {"n":"PROCWPN","t":"textbox","l":"How many people are walking?"},
+  {"n":"PROCBRIDE","t":"textbox","l":"Bride or couple processional song"},
+  {"n":"RECESS","t":"textbox","l":"Recessional song"},
+  {"n":"CERNOTES","t":"textarea","l":"Start/end points for any songs, plus other speakers or readings"}
+ ]},
+ {"section":"Cocktail Hour & Dinner","items":[
+  {"n":"COCKTAIL","t":"selectonehorizontal","l":"Will you have a cocktail hour?","o":["Yes","No"],"hide":{"No":["COCKSAME","COCKMUSIC"]}},
+  {"n":"COCKSAME","t":"selectonehorizontal","l":"Is cocktail hour in the same room as dinner?","o":["Yes","No"]},
+  {"n":"COCKMUSIC","t":"textarea","l":"Cocktail hour music (links, or describe the vibe and genres)"},
+  {"n":"DINNERBY","t":"selectbox","l":"Who's providing dinner music?","o":["[Select]","DJ Spark","Live musicians","No dinner music"],"hide":{"DJ Spark":["LIVEHOOKUP"],"No dinner music":["LIVEHOOKUP","DINNERLINKS"]}},
+  {"n":"DINNERLINKS","t":"textarea","l":"Dinner music (links, or describe the vibe)"},
+  {"n":"LIVEHOOKUP","t":"textarea","l":"Do the live musicians need to connect to our sound system? Any details?"},
+  {"n":"ANNOUNCE","t":"textarea","l":"Announcements or reminders during dinner (table release, guest book, etc.)"}
+ ]},
+ {"section":"Entrances & Special Dances","items":[
+  {"n":"ENTRANCE","t":"selectonehorizontal","l":"Will you have a grand entrance?","o":["Yes","No"],"hide":{"No":["PAIRS","ANNOUNCEAS","ENTSONG"]}},
+  {"n":"PAIRS","t":"textboxgrid","l":"Wedding party / family entrance pairs, in order","cols":["Names","Fun fact or memory"],"rows":["Pair 1","Pair 2","Pair 3","Pair 4","Pair 5","Pair 6","Pair 7"]},
+  {"n":"ANNOUNCEAS","t":"textbox","l":"Announce the two of you as…"},
+  {"n":"ENTSONG","t":"textbox","l":"Grand entrance song"},
+  {"n":"FIRSTDANCE","t":"textbox","l":"First dance song (link, or Title – Artist)"},
+  {"n":"FDLENGTH","t":"selectbox","l":"First dance length","o":["[Select]","Full song","Fade out after about 2 minutes","DJ's choice"]},
+  {"n":"FDSTART","t":"textbox","l":"Start point or choreography notes (optional)"},
+  {"n":"FAMDANCE","t":"textboxgrid","l":"Family dances","cols":["Who's dancing","Song"],"rows":["Family dance 1","Family dance 2"]}
+ ]},
+ {"section":"Toasts & Traditions","items":[
+  {"n":"WELCOMEBY","t":"textbox","l":"Who's giving the welcome? (leave blank to skip)"},
+  {"n":"BLESSINGBY","t":"textbox","l":"Who's giving a blessing? (leave blank to skip)"},
+  {"n":"TOASTS","t":"textboxgrid","l":"Toasts, in speaking order","cols":["Name","Relationship to you"],"rows":["Toast 1","Toast 2","Toast 3","Toast 4"]},
+  {"n":"THANKYOU","t":"selectonehorizontal","l":"Will you give a thank-you speech?","o":["Yes","No"]},
+  {"n":"CAKESONG","t":"textbox","l":"Cake cutting song (optional)"},
+  {"n":"DESSERT","t":"textbox","l":"Dessert plans for guests"},
+  {"n":"BOUQUET","t":"selectbox","l":"Bouquet toss or dedication?","o":["[Select]","Bouquet toss","Dedication","Neither"],"hide":{"Bouquet toss":["BOUQUETFOR"],"Neither":["BOUQUETFOR","BOUQUETSONG"]}},
+  {"n":"BOUQUETFOR","t":"textbox","l":"Who are we honoring with the dedication?"},
+  {"n":"BOUQUETSONG","t":"textbox","l":"Song for the toss or dedication"}
+ ]},
+ {"section":"Dance Floor","items":[
+  {"c":"<p>Paste Spotify, Apple Music or YouTube links, one per line. Titles work too.</p>"},
+  {"n":"MUSTPLAY","t":"textarea","l":"Must-play songs"},
+  {"n":"DANCEFAVS","t":"textarea","l":"Dancing favorites"},
+  {"n":"PLAYLISTS","t":"textarea","l":"Spotify or Apple Music playlists we should pull from"},
+  {"n":"DONTPLAY","t":"textarea","l":"Do-not-play songs or artists"},
+  {"n":"GENRES","t":"selectmultiple","l":"Genres you love on the dance floor","o":["Top 40 / Pop","Hip-Hop / R&B","80s & 90s throwbacks","2000s","Country","Latin","EDM / Dance","Rock","Motown / Soul","Line dances"]},
+  {"n":"HYPESONGS","t":"textarea","l":"Songs that always got your crowd hyped (school dances, college, friend group)"},
+  {"n":"LASTDANCE","t":"textbox","l":"Last dance song"},
+  {"n":"EXIT","t":"selectonehorizontal","l":"Grand exit at the end of the night?","o":["Yes","No"],"hide":{"No":["EXITSONG"]}},
+  {"n":"EXITSONG","t":"textbox","l":"Exit song"},
+  {"n":"ENDNOTES","t":"textarea","l":"End-of-night announcements (shuttles, after-party, etc.)"}
+ ]},
+ {"section":"DJ Team Notes","items":[
+  {"n":"MEETNOTES","t":"hidden_textarea","l":"Meeting notes (links and transcriptions)"},
+  {"n":"SALESCHECK","t":"hidden_textarea","l":"Sales call checklist notes"}
+ ]}
+]
